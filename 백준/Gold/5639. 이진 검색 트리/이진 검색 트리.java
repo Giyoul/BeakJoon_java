@@ -2,6 +2,7 @@ import java.io.*;
 
 public class Main {
     public static Node root;
+    public static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -16,6 +17,7 @@ public class Main {
         }
 
         show(root);
+        System.out.println(sb);
     }
 
     public static class Node{
@@ -48,6 +50,6 @@ public class Main {
         if(n == null) return;
         show(n.left);
         show(n.right);
-        System.out.println(n.data);
+        sb.append(n.data + "\n");
     }
 }
