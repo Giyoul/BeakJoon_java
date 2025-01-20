@@ -63,7 +63,9 @@ public class Main {
 
         int[][] newMap = new int[height][width];
         for(int i = 0; i < height; i++){
-            newMap[i] = map[i].clone();
+            for(int j = 0; j < width; j++){
+                newMap[i][j] = map[i][j];
+            }
         }
 
         while(!q.isEmpty()){
