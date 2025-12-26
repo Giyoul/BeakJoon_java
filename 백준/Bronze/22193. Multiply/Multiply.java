@@ -8,8 +8,8 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        BigInteger a = BigInteger.valueOf(Long.parseLong(br.readLine()));
-        BigInteger b = BigInteger.valueOf(Long.parseLong(br.readLine()));
+        BigInteger a = new BigInteger(br.readLine());
+        BigInteger b = new BigInteger(br.readLine());
 
         System.out.println(a.multiply(b));
     }
