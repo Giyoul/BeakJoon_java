@@ -3,23 +3,23 @@ import java.util.StringTokenizer
 fun main() = with(System.`in`.bufferedReader()) {
     val n = readLine().toInt()
     val st = StringTokenizer(readLine())
-    val delNode = readLine().toInt()
-    
-    val graph = Array(n) { mutableListOf<Int>() }
+    val del = readLine().toInt()
+
+    val graph = Array(n){ mutableListOf<Int>() }
     var root = -1
 
-    repeat(n) { i ->
-        val parent = st.nextToken().toInt()
-        if (parent == -1) {
-            root = i
+    repeat(n) {
+        val cur = st.nextToken().toInt()
+        if (cur == -1) {
+            root = it
         } else {
-            if (i != delNode) {
-                graph[parent].add(i)
+            if (it != del) {
+                graph[cur].add(it)
             }
         }
     }
 
-    if (root == delNode) {
+    if (root == del) {
         println(0)
         return
     }
@@ -29,9 +29,9 @@ fun main() = with(System.`in`.bufferedReader()) {
 
 fun countLeafNodes(current: Int, graph: Array<MutableList<Int>>): Int {
     if (graph[current].isEmpty()) return 1
-    
+
     var count = 0
-    for (next in graph[current]) {
+    for(next in graph[current]){
         count += countLeafNodes(next, graph)
     }
     return count
