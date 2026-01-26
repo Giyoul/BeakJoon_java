@@ -3,55 +3,36 @@ import java.util.StringTokenizer
 fun main() = with(System.`in`.bufferedReader()) {
     val n = readLine().toInt()
     val st = StringTokenizer(readLine())
-    val del = readLine().toInt()
+    val delNode = readLine().toInt()
+    
+    val graph = Array(n) { mutableListOf<Int>() }
     var root = -1
-    var delParent = -1
 
-    val graph = Array(n){ mutableListOf<Int>() }
-
-    repeat(n) {
-        val cur = st.nextToken().toInt()
-        if (cur == -1) {
-            root = it
-            return@repeat
-        }
-        if (it == del) {
-            delParent = cur
-        }
-        graph[cur].add(it)
-    }
-
-    val q = ArrayDeque<Int>()
-    q.add(del)
-    if(delParent != -1) graph[delParent].remove(del)
-
-    while (q.isNotEmpty()) {
-        val idx = q.removeFirst()
-        if (graph[idx].isNotEmpty()) {
-            for (sibling in graph[idx]) {
-                q.add(sibling)
+    repeat(n) { i ->
+        val parent = st.nextToken().toInt()
+        if (parent == -1) {
+            root = i
+        } else {
+            if (i != delNode) {
+                graph[parent].add(i)
             }
-            graph[idx].clear()
         }
     }
 
+    if (root == delNode) {
+        println(0)
+        return
+    }
+
+    println(countLeafNodes(root, graph))
+}
+
+fun countLeafNodes(current: Int, graph: Array<MutableList<Int>>): Int {
+    if (graph[current].isEmpty()) return 1
+    
     var count = 0
-    val deq = ArrayDeque<Int>()
-    deq.add(root)
-
-    if (del != root) {
-        while (deq.isNotEmpty()) {
-            val idx =  deq.removeFirst()
-            if (graph[idx].isEmpty()) {
-                count++
-                continue
-            } else {
-                for (sibling in graph[idx]) {
-                    deq.add(sibling)
-                }
-            }
-        }
+    for (next in graph[current]) {
+        count += countLeafNodes(next, graph)
     }
-
-    println(count)
+    return count
 }
