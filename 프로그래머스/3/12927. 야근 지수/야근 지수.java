@@ -1,54 +1,29 @@
-import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.Collections;
 
 class Solution {
     public long solution(int n, int[] works) {
-        Arrays.sort(works);
-
-        long sumOfWorks = 0;
-
-        for (int work : works) {
-            sumOfWorks += work;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        
+        for(int work : works) {
+            pq.add(work);
         }
-
-        if (sumOfWorks <= n) {
-            return 0;
+        
+        while(n > 0){
+            int biggest = pq.poll();
+            
+            if(biggest == 0) return 0;
+            
+            pq.add(biggest - 1);
+            n--;
         }
-
-        long remainingWorks = sumOfWorks - n;
-
-        int length = works.length;
-        int i = 0;
-
-        while (i < length) {
-            long averageOfWorks = remainingWorks / (length - i);
-
-            if (works[i] > averageOfWorks) {
-                break;
-            }
-
-            remainingWorks -= works[i];
-            i++;
-        }
-
-        int count = length - i;
-
-        long averageOfWorks = remainingWorks / count;
-        long remainder = remainingWorks % count;
-
+        
         long answer = 0;
-
-        for (int j = 0; j < i; j++) {
-            answer += (long) works[j] * works[j];
+        while(!pq.isEmpty()) {
+            long num = pq.poll();
+            answer += num * num;
         }
-
-        answer += (count - remainder)
-                * averageOfWorks * averageOfWorks;
-
-        answer += remainder
-                * (averageOfWorks + 1)
-                * (averageOfWorks + 1);
-
+        
         return answer;
     }
 }
